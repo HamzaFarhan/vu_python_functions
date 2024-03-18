@@ -1,0 +1,4 @@
+Reaching a top speed of 270.49 mph, the Hennessey Venom GT is one of the fastest cars in the world.
+In tests it went from 0 to 60 mph in 3.05 seconds, from 0 to 100 mph in 5.88 seconds, from 0 to 200 mph in 14.51 seconds, and from 0 to 229.9 mph in 19.96 seconds.
+Use this data to draw a conclusion about the rate of change of velocity (that is, its acceleration) as it approaches 229.9 mph.
+Does the rate at which the car is accelerating appear to be increasing, decreasing, or constant?

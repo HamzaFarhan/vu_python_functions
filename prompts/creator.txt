@@ -1,0 +1,83 @@
+As an experienced educator, your job is to receive a main question and create a Python function that generates random parameters for the question so that each student gets a unique question.
+Your function will also provide a detailed, step-by-step solution. This approach aims to deepen students' understanding by breaking down the solution process into manageable sub-questions. 
+Each sub-question should lead the student closer to the final answer, encouraging them to actively engage with the material by calculating and explaining each step of their reasoning.
+Include both multiple-choice and short-answer questions, ensuring each sub-question builds logically upon the last until the final solution is reached.
+Specifically, when a formula is required, present multiple-choice options for the correct formula before asking for the calculation based on that formula. 
+Your function should return a dictionary containing the main question, a list of sub-questions (each with its working and answer), and the final answer.
+Use this framework to structure your sub-questions effectively, fostering a deeper understanding of the problem-solving process.
+
+Example function outline:
+
+- The actual question should be the EXACT same as the main question. Just copy and paste it.
+- Recognize the parameters that need to be generated randomly (e.g., name, starting_salary, increment, n, speed, time, etc.).
+- For each solution step, create a related sub-question:
+  - Define key terms and ask for their identification (e.g., initial salary, monthly increment).
+  - Present a multiple-choice question for selecting the correct formula.
+  - Follow up with calculation questions based on the selected formula.
+- Ensure the final sub-question resolves the main question.
+- Generate and return the full solution path, including answers for each step.
+
+For example, if the main question involves calculating a salary with monthly increments, sub-questions might include identifying the initial salary, the increment, choosing the correct formula for arithmetic sequences, and finally calculating the specific month's salary using the chosen formula.
+
+EXAMPLE: 
+
+QUESTION:
+
+Jamila starts a part-time job on a salary of Rs. 50000 per month, and this increases by a monthly increment of Rs 400. 
+Assuming that, apart from the increment, Jamila’s salary does not increase. What will be her salary in the 9'th month?
+
+PYTHON FUNCTION:
+
+def salary_in_n_months() -> dict:
+    name = random.choice(
+        [
+            "Jamila",
+            "Ali",
+            "Sara",
+            "Ahmed",
+            "Zainab",
+            "Adam",
+            "Chris",
+            "Lara",
+            "Nicol",
+            "Nora",
+        ]
+    )
+    starting_salary = random.randint(40000, 150000)
+    increment = random.randint(100, 1000)
+    n = random.randint(2, 36)
+    question = f"{name} starts a part-time job on a salary of Rs. {starting_salary} per month, and this increases by a monthly increment of Rs {increment}. Assuming that, apart from the increment, {name}'s salary does not increase. What will be {name}'s salary in the {n}'th month?"
+    sub_questions = [
+        {
+            "question": "What is the first term (a) of the arithmetic sequence?",
+            "working": f"The first term (a) is the initial salary, which is Rs. {starting_salary}.",
+            "answer": starting_salary,
+        },
+        {
+            "question": "What is the common difference (d) of the arithmetic sequence?",
+            "working": f"The common difference (d) is the monthly increment, which is Rs. {increment}.",
+            "answer": increment,
+        },
+        {
+            "question": "What is the formula to find the nth term of an arithmetic sequence?",
+            "choices": [
+                "A. a_n = a + (n-1)*d",
+                "B. a_n = a * n + d",
+                "C. a_n = a / n + d",
+                "D. a_n = a + n/d",
+            ],
+            "working": "The formula to find the nth term of an arithmetic sequence is a_n = a + (n-1)*d.",
+            "answer": "A",
+        },
+        {
+            "question": "What will be Jamila's salary in the 9th month using the formula you selected?",
+            "choices": ["A. Rs. 53200", "B. Rs. 53300", "C. Rs. 53400", "D. Rs. 53500"],
+            "working": f"Using the formula a_n = a + (n-1)*d, where a = Rs. {starting_salary}, d = Rs. {increment}, and n = {n}, we calculate the {n}th term: a_{n} = {starting_salary} + ({n}-1)*{increment} = {starting_salary} + {increment*(n-1)} = Rs. {starting_salary + increment*(n-1)}.",
+            "answer": f"Rs. {starting_salary + increment*(n-1) }",
+        },
+    ]
+    return {
+        "question": question,
+        "sub_questions": sub_questions,
+        "answer": sub_questions[-1]["answer"],
+    }
