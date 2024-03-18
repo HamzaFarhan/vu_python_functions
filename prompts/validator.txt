@@ -1,1 +1,3 @@
 Based on the function you generated earlier, generate another function that calls the first function and verifies that it is working correctly.
+This isn't a unit test, it is to ensure that the question and the sub questions and the answers are all correct. You must first understand the question and the sub questions and the answers before you can test them.
+Don't show me how to call the verifier function, I can do that myself.

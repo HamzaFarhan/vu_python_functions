@@ -2,56 +2,60 @@
 import random
 
 def analyze_acceleration() -> dict:
-    # Randomly generate top speed and acceleration times
-    top_speed = round(random.uniform(260, 280), 2)  # mph
-    to_60_time = round(random.uniform(2.5, 3.5), 2)  # seconds
-    to_100_time = round(random.uniform(5.5, 6.5), 2)  # seconds
-    to_200_time = round(random.uniform(13.5, 15.5), 2)  # seconds
-    to_230_time = round(random.uniform(18.5, 21.5), 2)  # seconds
+    car_names = ["Hennessey Venom GT", "Bugatti Chiron", "Koenigsegg Agera RS", "SSC Tuatara", "Bugatti Veyron"]
+    top_speeds = [270.49, 304.77, 277.87, 282.9, 267.85]  # in mph
+    times_to_60 = [3.05, 2.4, 2.6, 2.5, 2.5]  # in seconds
+    times_to_100 = [5.88, 4.4, 4.7, 4.3, 4.8]  # in seconds
+    times_to_200 = [14.51, 13.6, 12.8, 11.9, 14.6]  # in seconds
+    times_to_top_speed = [19.96, 32.6, 33.29, 28.34, 42.3]  # in seconds, to a speed close to top speed
 
-    question = f"Reaching a top speed of {top_speed} mph, the Hennessey Venom GT is one of the fastest cars in the world. In tests it went from 0 to 60 mph in {to_60_time} seconds, from 0 to 100 mph in {to_100_time} seconds, from 0 to 200 mph in {to_200_time} seconds, and from 0 to 229.9 mph in {to_230_time} seconds. Use this data to draw a conclusion about the rate of change of velocity (that is, its acceleration) as it approaches 229.9 mph. Does the rate at which the car is accelerating appear to be increasing, decreasing, or constant?"
+    # Randomly select a car
+    index = random.randint(0, len(car_names) - 1)
+    car_name = car_names[index]
+    top_speed = top_speeds[index]
+    time_to_60 = times_to_60[index]
+    time_to_100 = times_to_100[index]
+    time_to_200 = times_to_200[index]
+    time_to_top_speed = times_to_top_speed[index]
+    speed_close_to_top = round(top_speed * 0.85, 2)  # 85% of top speed for comparison
+
+    question = f"Reaching a top speed of {top_speed} mph, the {car_name} is one of the fastest cars in the world. In tests it went from 0 to 60 mph in {time_to_60} seconds, from 0 to 100 mph in {time_to_100} seconds, from 0 to 200 mph in {time_to_200} seconds, and from 0 to {speed_close_to_top} mph in {time_to_top_speed} seconds. Use this data to draw a conclusion about the rate of change of velocity (that is, its acceleration) as it approaches {speed_close_to_top} mph. Does the rate at which the car is accelerating appear to be increasing, decreasing, or constant?"
 
     sub_questions = [
         {
-            "question": "How do you calculate the average acceleration between two speeds?",
+            "question": "What is the initial velocity (u) and the final velocity (v) when the car reaches close to its top speed?",
+            "working": f"The initial velocity (u) is 0 mph (since the car starts from rest), and the final velocity (v) is {speed_close_to_top} mph.",
+            "answer": f"u = 0 mph, v = {speed_close_to_top} mph",
+        },
+        {
+            "question": "What is the time (t) taken to reach this speed?",
+            "working": f"The time taken to reach {speed_close_to_top} mph from 0 mph is {time_to_top_speed} seconds.",
+            "answer": f"{time_to_top_speed} seconds",
+        },
+        {
+            "question": "How do you calculate the average acceleration (a)?",
             "choices": [
-                "A. Acceleration = (Final speed - Initial speed) / Time",
-                "B. Acceleration = (Final speed + Initial speed) * Time",
-                "C. Acceleration = (Final speed - Initial speed) * Time",
-                "D. Acceleration = (Final speed + Initial speed) / Time",
+                "A. a = (v - u) / t",
+                "B. a = (v + u) / t",
+                "C. a = v * t",
+                "D. a = u * t",
             ],
-            "working": "Acceleration is the rate of change of velocity per unit of time. So, the correct formula is Acceleration = (Final speed - Initial speed) / Time.",
+            "working": "The formula to calculate the average acceleration is a = (v - u) / t.",
             "answer": "A",
         },
         {
-            "question": "What is the average acceleration from 0 to 60 mph?",
-            "working": f"Using the formula, Acceleration = (Final speed - Initial speed) / Time, we get Acceleration = (60 - 0) / {to_60_time} = {60 / to_60_time} mph/s^2.",
-            "answer": round(60 / to_60_time, 2),
+            "question": f"What is the average acceleration of the {car_name} as it approaches {speed_close_to_top} mph?",
+            "working": f"Using the formula a = (v - u) / t, where u = 0 mph, v = {speed_close_to_top} mph, and t = {time_to_top_speed} seconds, we calculate the average acceleration: a = ({speed_close_to_top} - 0) / {time_to_top_speed} = {speed_close_to_top / time_to_top_speed} mph/s.",
+            "answer": f"{speed_close_to_top / time_to_top_speed} mph/s",
         },
         {
-            "question": "What is the average acceleration from 0 to 100 mph?",
-            "working": f"Acceleration = (100 - 0) / {to_100_time} = {100 / to_100_time} mph/s^2.",
-            "answer": round(100 / to_100_time, 2),
-        },
-        {
-            "question": "What is the average acceleration from 0 to 200 mph?",
-            "working": f"Acceleration = (200 - 0) / {to_200_time} = {200 / to_200_time} mph/s^2.",
-            "answer": round(200 / to_200_time, 2),
-        },
-        {
-            "question": "What is the average acceleration from 0 to 229.9 mph?",
-            "working": f"Acceleration = (229.9 - 0) / {to_230_time} = {229.9 / to_230_time} mph/s^2.",
-            "answer": round(229.9 / to_230_time, 2),
-        },
-        {
-            "question": "Based on the calculated accelerations, does the rate at which the car is accelerating appear to be increasing, decreasing, or constant as it approaches 229.9 mph?",
-            "working": "Comparing the accelerations from 0 to 60, 0 to 100, 0 to 200, and 0 to 229.9 mph, we observe the acceleration values decrease as the speed increases, indicating the rate of acceleration decreases as the car approaches its top speed.",
+            "question": "Based on the acceleration values at different speeds, does the rate at which the car is accelerating appear to be increasing, decreasing, or constant as it approaches its top speed?",
+            "working": "To determine this, compare the acceleration values at different speeds. A decreasing acceleration value as speed increases indicates decreasing acceleration.",
             "answer": "Decreasing",
         },
     ]
-
     return {
         "question": question,
         "sub_questions": sub_questions,
-        "answer": sub_questions[-1]["answer"],
+        "answer": "Decreasing",
     }

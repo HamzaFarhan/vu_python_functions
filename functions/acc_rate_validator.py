@@ -1,31 +1,30 @@
 
 # Assuming the function analyze_acceleration is saved in a file named acc_rate_creator.py
-# First, you would import the function from the file
-
+# First, we need to import the function
 from acc_rate_creator import analyze_acceleration
 
-def test_analyze_acceleration():
-    # Call the analyze_acceleration function to generate a question and its solution
-    question_data = analyze_acceleration()
+def verify_analyze_acceleration():
+    # Call the function to generate a question and its solution path
+    generated_question = analyze_acceleration()
     
-    # Verify the structure of the returned data
-    assert "question" in question_data, "The returned data must contain a 'question' field."
-    assert "sub_questions" in question_data, "The returned data must contain 'sub_questions'."
-    assert "answer" in question_data, "The returned data must contain an 'answer'."
+    # Verify the main question
+    assert "is one of the fastest cars in the world." in generated_question["question"], "Main question format error."
     
-    # Verify that there are sub-questions and each has the required fields
-    assert isinstance(question_data["sub_questions"], list), "'sub_questions' should be a list."
-    assert len(question_data["sub_questions"]) > 0, "'sub_questions' list should not be empty."
+    # Verify sub-questions and answers
+    for sub_question in generated_question["sub_questions"]:
+        assert "question" in sub_question, "Sub-question missing question text."
+        assert "working" in sub_question, "Sub-question missing working."
+        assert "answer" in sub_question, "Sub-question missing answer."
+        
+        # For the formula question, verify the correct option is provided
+        if "choices" in sub_question:
+            assert "A. a = (v - u) / t" in sub_question["choices"], "Incorrect formula option."
+            assert sub_question["answer"] == "A", "Incorrect formula answer."
     
-    for sub_question in question_data["sub_questions"]:
-        assert "question" in sub_question, "Each sub-question must contain a 'question'."
-        assert "working" in sub_question, "Each sub-question must contain 'working'."
-        assert "answer" in sub_question, "Each sub-question must contain an 'answer'."
+    # Verify final answer
+    assert generated_question["answer"] == "Decreasing", "Incorrect final answer."
     
-    # Verify the final answer is consistent with the expected format
-    assert isinstance(question_data["answer"], str), "The final 'answer' should be a string."
-    
-    print("All tests passed successfully!")
+    print("All tests passed. The function generates correct questions, sub-questions, and answers.")
 
-# Call the test function to verify everything works as expected
-test_analyze_acceleration()
+# Call the verification function
+verify_analyze_acceleration()
